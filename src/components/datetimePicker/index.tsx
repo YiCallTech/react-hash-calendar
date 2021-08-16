@@ -87,6 +87,7 @@ export type DateTimeProps = {
   touchStartCallback?: (e: React.TouchEvent) => void;
   touchMoveCallback?: (e: React.TouchEvent) => void;
   touchEndCallback?: (e: React.TouchEvent) => void;
+  dateChangeCallback?: (date: Date | string) => void;
   dateClickCallback?: (date: Date | string) => void;
   dateConfirmCallback?: (date: Date | string) => void;
 } & Partial<typeof defaultProps>;
@@ -204,12 +205,24 @@ class ReactHashCalendar extends React.Component<
   };
 
   dateChange = (date: IDate) => {
+    const { dateChangeCallback, format, lang } = this.props;
     const { checkedDate } = this.state;
+    let _checkedDate = {
+      ...checkedDate,
+      ...date,
+    };
+
+    let fDate: Date | string = new Date(
+      `${_checkedDate.year}/${_checkedDate.month + 1}/${_checkedDate.day} ${
+        _checkedDate.hours
+      }:${_checkedDate.minutes}`
+    );
+    if (format) {
+      fDate = formatDate(fDate, format, lang);
+    }
+    dateChangeCallback && dateChangeCallback(fDate);
     this.setState({
-      checkedDate: {
-        ...checkedDate,
-        ...date,
-      },
+      checkedDate: _checkedDate,
     });
   };
 
