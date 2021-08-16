@@ -322,11 +322,6 @@ class Calendar extends React.Component<
   };
 
   showWeek = (checkedDate?: IDate) => {
-    function stopScrolling( touchEvent ) {
-      touchEvent.preventDefault()
-    }
-  
-    document.addEventListener( 'touchstart' , stopScrolling , {passive:false} );
     const {
       calendarOfMonth,
       checkedDate: _checkedDate,
@@ -423,7 +418,7 @@ class Calendar extends React.Component<
     }
     this.state.calendarOfMonthShow[0].splice(sliceStart, 7, ...lastWeek);
     this.state.calendarOfMonthShow[2].splice(sliceStart, 7, ...nextWeek);
-    document.addEventListener( 'touchmove' , stopScrolling , {passive:false} );
+
     this.setState({
       nextWeek,
       isNextWeekInCurrentMonth: _isNextWeekInCurrentMonth,
@@ -431,11 +426,6 @@ class Calendar extends React.Component<
   };
 
   showMonth = () => {
-    function stopScrolling( touchEvent ) {
-      touchEvent.preventDefault()
-    }
-  
-    document.addEventListener( 'touchstart' , stopScrolling , {passive:false} );
     const { checkedDate, calendarItemRef } = this.state;
 
     const calendarItemHeight =
@@ -448,7 +438,7 @@ class Calendar extends React.Component<
       isNextWeekInCurrentMonth: false,
       calendarGroupHeight: calendarItemHeight * 6,
     });
-    document.addEventListener( 'touchmove' , stopScrolling , {passive:false} );
+
     this.calculateCalendarOfThreeMonth(checkedDate.year, checkedDate.month);
   };
 
